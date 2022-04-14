@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(dirname "$0")/.."
+
+describe() {
+  echo "--- $1…"
+}
+
+git_branch_name() {
+  set +u
+  if [ -n "$CI" ]; then
+    local branch=$BUILDKITE_BRANCH
+  else
+    local branch=$(git rev-parse --abbrev-ref HEAD)
+  fi
+  set -u
+  printf "$branch"
+}
+
+buildpacks_package() {
+  local shortsha=$(git rev-parse --short HEAD)
+  local longsha=$(git rev-parse HEAD)
+  local branch=$(git_branch_name)
+  describe "Packaging via buildpacks :buildpacks:"
+  pack build flowerworkio/platform:${branch} \
+    --path . \
+    --builder flowerworkio/builder:focal
+  docker tag flowerworkio/platform:${branch} flowerworkio/platform:${shortsha}
+  docker tag flowerworkio/platform:${branch} flowerworkio/platform:${longsha}
+}
+
+describe "Packing platform via buildpacks"
+buildpacks_package
