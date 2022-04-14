@@ -1,3 +1,4 @@
+[![Build status](https://badge.buildkite.com/d3e1036c20f922384db28995991f1fdbf3085626eceb1c775c.svg)](https://buildkite.com/flowerwork/seeds-phoenix-app)
 # HelloWorld
 
 To start your Phoenix server:
