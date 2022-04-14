@@ -1,0 +1,5 @@
+steps:
+  - label: ":buildpacks: package"
+    key: package
+    command: ./bin/package
+    branches: main

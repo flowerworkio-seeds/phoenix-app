@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+describe() {
+  echo "--- $1…"
+}
+
+bash_source_profile() {
+  describe "Sourcing .profile to shell"
+  source $HOME/.profile
+}
+
+case $BUILDKITE_STEP_KEY in
+  package)
+    bash_source_profile
+    ;;
+  *)
+    describe "Skipping pre-command hook"
+    ;;
+esac
